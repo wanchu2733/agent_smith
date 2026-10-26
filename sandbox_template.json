@@ -1,0 +1,30 @@
+{
+    "docker_image_name": "ubu",
+    "authorized_imports": [
+        "math",
+        "math.*",
+        "collections",
+        "collections.*",
+        "itertools",
+        "re",
+        "json",
+        "typing",
+        "typing.*",
+        "functools",
+        "operator",
+        "heapq",
+        "bisect",
+        "copy",
+        "string",
+        "random",
+        "datetime",
+        "datetime.*",
+        "array",
+        "cmath"
+    ],
+    "allowed_directories": [
+        "/testbed",
+        "/tmp/agent"
+    ],
+    "max_execution_time_seconds": 30
+}
