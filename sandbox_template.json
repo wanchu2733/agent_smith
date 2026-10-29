@@ -1,5 +1,4 @@
 {
-    "docker_image_name": "ubu",
     "authorized_imports": [
         "math",
         "math.*",
