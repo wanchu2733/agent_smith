@@ -1,5 +1,6 @@
 import argparse
 import json
+from mcp_client import MCPClientStdio, MCPClientHttp
 from model import SandboxConfig
 from sandbox import Sandbox
 
@@ -12,19 +13,22 @@ def parse_args():
     return parser.parse_args()
 
 
-def load_config(path: str) -> SandboxConfig:
-    with open(path, "r") as f:
-        return json.load(f)
-
-
 def repl(sandbox: Sandbox):
     print("repl")
+    lines = []
     while True:
         line = input(">")
         if "exit" in line:
             break
+        lines.append(line)
+        while True:
+            line = input(">")
+            if not line:
+                break
+            lines.append(line)
+        code = "\n".join(lines)
         result = sandbox.execute(
-            code=line,
+            code=code,
             timeout=1.0,
         )
         print(f"result.stdout: {result.stdout}")
@@ -35,13 +39,13 @@ def repl(sandbox: Sandbox):
 
 def main():
     args = parse_args()
-    config = load_config(args.config_file)
-    sandbox = Sandbox(config)
+    sandbox = Sandbox()
+    sandbox.load_config(args.config_file)
     mcp_client = None
     if args.mcp_stdio:
-        mcp_client = MCPClient.stdio(args.mcp_stdio)
+        mcp_client = MCPClientStdio(args.mcp_stdio)
     elif args.mcp_server:
-        mcp_client = MCPClient.http(args.mcp_server)
+        mcp_client = MCPClientHttp(args.mcp_server)
     if mcp_client is not None:
         sandbox.connect_mcp(mcp_client)
     repl(sandbox)

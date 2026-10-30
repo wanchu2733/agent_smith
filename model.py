@@ -31,7 +31,6 @@ class SandboxConfig(BaseModel):
     ])
     max_execution_time_seconds: int = 30
     max_memory_mb: int = 512
-    docker_image_name: str = "ubu"
 
 
 class SolutionOutput(BaseModel):
